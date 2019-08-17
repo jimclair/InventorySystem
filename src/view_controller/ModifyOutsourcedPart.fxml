@@ -16,7 +16,7 @@
          <children>
             <HBox prefHeight="102.0" prefWidth="486.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="41.0" prefWidth="157.0" text="Add Part" textFill="#3b5597">
+                  <Label alignment="CENTER" prefHeight="41.0" prefWidth="157.0" text="Modify Part" textFill="#3b5597">
                      <font>
                         <Font name="Arial Bold" size="18.0" />
                      </font>
