@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="609.0" prefWidth="1047.0" style="-fx-background-color: #e3e3e3;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.MainMenuController">
+<AnchorPane id="AnchorPane" prefHeight="609.0" prefWidth="1047.0" style="-fx-background-color: #e3e3e3;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.ModifyProductController">
    <children>
       <HBox prefHeight="609.0" prefWidth="1047.0" style="-fx-border-color: #adadad; -fx-border-radius: 10px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -40,7 +40,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField prefHeight="43.0" prefWidth="138.0">
+                        <TextField fx:id="productIdTxt" prefHeight="43.0" prefWidth="138.0">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -57,7 +57,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField prefHeight="43.0" prefWidth="138.0">
+                        <TextField fx:id="productNameTxt" prefHeight="43.0" prefWidth="138.0">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -74,7 +74,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField prefHeight="43.0" prefWidth="82.0">
+                        <TextField fx:id="productInvTxt" prefHeight="43.0" prefWidth="82.0">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -91,7 +91,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField prefHeight="43.0" prefWidth="82.0">
+                        <TextField fx:id="productPriceTxt" prefHeight="43.0" prefWidth="82.0">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -108,7 +108,7 @@
                               <Insets left="20.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField prefHeight="43.0" prefWidth="82.0">
+                        <TextField fx:id="productMaxTxt" prefHeight="43.0" prefWidth="82.0">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -121,7 +121,7 @@
                               <Insets left="20.0" right="15.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField layoutX="196.0" layoutY="18.0" prefHeight="43.0" prefWidth="82.0" />
+                        <TextField fx:id="productMinTxt" layoutX="196.0" layoutY="18.0" prefHeight="43.0" prefWidth="82.0" />
                      </children>
                   </HBox>
                   <VBox prefHeight="223.0" prefWidth="441.0" />
@@ -132,57 +132,57 @@
                   <VBox prefHeight="130.0" prefWidth="540.0" />
                   <HBox alignment="CENTER" prefHeight="47.0" prefWidth="540.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="90.0" text="Search">
+                        <Button mnemonicParsing="false" onAction="#onActionSearchProduct" prefHeight="37.0" prefWidth="90.0" text="Search">
                            <HBox.margin>
                               <Insets right="15.0" />
                            </HBox.margin>
                         </Button>
-                        <TextField />
+                        <TextField fx:id="productSearchTxt" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="15.0" />
                      </VBox.margin>
                   </HBox>
-                  <TableView prefHeight="220.0" prefWidth="540.0">
+                  <TableView fx:id="productAddTableView" prefHeight="220.0" prefWidth="540.0">
                     <columns>
-                      <TableColumn prefWidth="135.0" text="Part ID" />
-                        <TableColumn prefWidth="135.0" text="Part Name" />
-                        <TableColumn prefWidth="135.0" text="Inventory Level" />
-                        <TableColumn prefWidth="135.0" text="Price per Unit" />
+                      <TableColumn fx:id="addPartIdCol" prefWidth="135.0" text="Part ID" />
+                        <TableColumn fx:id="addPartNameCol" prefWidth="135.0" text="Part Name" />
+                        <TableColumn fx:id="addInventoryLevelCol" prefWidth="135.0" text="Inventory Level" />
+                        <TableColumn fx:id="addPriceCol" prefWidth="135.0" text="Price per Unit" />
                     </columns>
                   </TableView>
                   <VBox alignment="CENTER_RIGHT" prefHeight="142.0" prefWidth="540.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="90.0" text="Add">
+                        <Button mnemonicParsing="false" onAction="#onActionAddProduct" prefHeight="37.0" prefWidth="90.0" text="Add">
                            <VBox.margin>
                               <Insets right="36.0" />
                            </VBox.margin>
                         </Button>
                      </children>
                   </VBox>
-                  <TableView prefHeight="220.0" prefWidth="540.0">
+                  <TableView fx:id="deleteProductTableView" prefHeight="220.0" prefWidth="540.0">
                     <columns>
-                        <TableColumn prefWidth="135.0" text="Part ID" />
-                        <TableColumn prefWidth="135.0" text="Part Name" />
-                        <TableColumn prefWidth="135.0" text="Inventory Level" />
-                        <TableColumn prefWidth="135.0" text="Price per Unit" />
+                        <TableColumn fx:id="deletePartIdCol" prefWidth="135.0" text="Part ID" />
+                        <TableColumn fx:id="deletePartNameCol" prefWidth="135.0" text="Part Name" />
+                        <TableColumn fx:id="deleteInventoryLevelCol" prefWidth="135.0" text="Inventory Level" />
+                        <TableColumn fx:id="deletePriceCol" prefWidth="135.0" text="Price per Unit" />
                     </columns>
                   </TableView>
                   <HBox alignment="BOTTOM_RIGHT" prefHeight="177.0" prefWidth="540.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="90.0" text="Save">
+                        <Button mnemonicParsing="false" onAction="#onActionSave" prefHeight="37.0" prefWidth="90.0" text="Save">
                            <HBox.margin>
                               <Insets bottom="10.0" right="10.0" />
                            </HBox.margin>
                         </Button>
                         <VBox alignment="BOTTOM_LEFT" prefHeight="90.0" prefWidth="127.0">
                            <children>
-                            <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="91.0" text="Delete">
+                            <Button mnemonicParsing="false" onAction="#onActionDeleteProduct" prefHeight="38.0" prefWidth="91.0" text="Delete">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="90.0" text="Cancel">
+                              <Button mnemonicParsing="false" onAction="#onActionDisplayMain" prefHeight="37.0" prefWidth="90.0" text="Cancel">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>

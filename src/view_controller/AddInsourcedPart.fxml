@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="474.0" prefWidth="485.0" style="-fx-background-color: #e3e3e3;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.MainMenuController">
+<AnchorPane id="AnchorPane" prefHeight="474.0" prefWidth="485.0" style="-fx-background-color: #e3e3e3;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.AddInsourcedPartController">
    <children>
       <VBox prefHeight="474.0" prefWidth="485.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -24,7 +24,7 @@
                         <Insets top="20.0" />
                      </padding>
                   </Label>
-                  <RadioButton mnemonicParsing="false" prefHeight="19.0" prefWidth="91.0" text="In-House">
+                  <RadioButton fx:id="partInHouseRBtn" mnemonicParsing="false" prefHeight="19.0" prefWidth="91.0" text="In-House">
                      <HBox.margin>
                         <Insets left="25.0" top="23.0" />
                      </HBox.margin>
@@ -32,7 +32,7 @@
                         <Font size="14.0" />
                      </font>
                   </RadioButton>
-                  <RadioButton layoutX="146.0" layoutY="33.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="108.0" text="Outsourced">
+                  <RadioButton fx:id="partOutsourcedRBtn" layoutX="146.0" layoutY="33.0" mnemonicParsing="false" prefHeight="19.0" prefWidth="108.0" text="Outsourced">
                      <HBox.margin>
                         <Insets left="25.0" top="23.0" />
                      </HBox.margin>
@@ -52,7 +52,7 @@
                         <Insets left="90.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="43.0" prefWidth="138.0">
+                  <TextField fx:id="partIdTxt" prefHeight="43.0" prefWidth="138.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -69,7 +69,7 @@
                         <Insets left="90.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="43.0" prefWidth="138.0">
+                  <TextField fx:id="partNameTxt" prefHeight="43.0" prefWidth="138.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -86,7 +86,7 @@
                         <Insets left="90.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="43.0" prefWidth="138.0">
+                  <TextField fx:id="partInvTxt" prefHeight="43.0" prefWidth="138.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -103,7 +103,7 @@
                         <Insets left="90.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="43.0" prefWidth="138.0">
+                  <TextField fx:id="partPriceTxt" prefHeight="43.0" prefWidth="138.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -120,7 +120,7 @@
                         <Insets left="90.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="43.0" prefWidth="82.0">
+                  <TextField fx:id="partMaxTxt" prefHeight="43.0" prefWidth="82.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -133,7 +133,7 @@
                         <Insets left="15.0" right="15.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField layoutX="196.0" layoutY="18.0" prefHeight="43.0" prefWidth="82.0" />
+                  <TextField fx:id="partMinTxt" layoutX="196.0" layoutY="18.0" prefHeight="43.0" prefWidth="82.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="90.0" prefHeight="100.0" prefWidth="486.0">
@@ -146,7 +146,7 @@
                         <Insets left="90.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="43.0" prefWidth="100.0">
+                  <TextField fx:id="partMachineIdTxt" prefHeight="43.0" prefWidth="100.0">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -155,12 +155,12 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="79.0" prefHeight="113.0" prefWidth="485.0">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="Save">
+                  <Button mnemonicParsing="false" onAction="#onActionSaveNewPart" prefHeight="31.0" prefWidth="82.0" text="Save">
                      <HBox.margin>
                         <Insets bottom="20.0" right="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button layoutX="383.0" layoutY="10.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="82.0" text="Cancel">
+                  <Button layoutX="383.0" layoutY="10.0" mnemonicParsing="false" onAction="#onActionDisplayMain" prefHeight="31.0" prefWidth="82.0" text="Cancel">
                      <HBox.margin>
                         <Insets bottom="20.0" right="30.0" />
                      </HBox.margin>
