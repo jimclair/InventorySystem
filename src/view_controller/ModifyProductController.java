@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -20,32 +19,42 @@ import javafx.scene.control.TextField;
  *
  * @author james.clair
  */
-public class MainMenuController implements Initializable {
+public class ModifyProductController implements Initializable {
 
 	@FXML
-	private TextField searchPartTxt;
+	private TextField productIdTxt;
 	@FXML
-	private TableView<?> partsTableView;
+	private TextField productNameTxt;
 	@FXML
-	private TableColumn<?, ?> partIdCol;
+	private TextField productInvTxt;
 	@FXML
-	private TableColumn<?, ?> partNameCol;
+	private TextField productPriceTxt;
 	@FXML
-	private TableColumn<?, ?> partInventoryLvlCol;
+	private TextField productMaxTxt;
 	@FXML
-	private TableColumn<?, ?> partPriceCol;
+	private TextField productMinTxt;
 	@FXML
-	private TextField searchProductTxt;
+	private TextField productSearchTxt;
 	@FXML
-	private TableView<?> productsTableView;
+	private TableView<?> productAddTableView;
 	@FXML
-	private TableColumn<?, ?> productIdCol;
+	private TableColumn<?, ?> addPartIdCol;
 	@FXML
-	private TableColumn<?, ?> productNameCol;
+	private TableColumn<?, ?> addPartNameCol;
 	@FXML
-	private TableColumn<?, ?> productInventoryLvlCol;
+	private TableColumn<?, ?> addInventoryLevelCol;
 	@FXML
-	private TableColumn<?, ?> productPriceCol;
+	private TableColumn<?, ?> addPriceCol;
+	@FXML
+	private TableView<?> deleteProductTableView;
+	@FXML
+	private TableColumn<?, ?> deletePartIdCol;
+	@FXML
+	private TableColumn<?, ?> deletePartNameCol;
+	@FXML
+	private TableColumn<?, ?> deleteInventoryLevelCol;
+	@FXML
+	private TableColumn<?, ?> deletePriceCol;
 
 	/**
 	 * Initializes the controller class.
@@ -56,22 +65,6 @@ public class MainMenuController implements Initializable {
 	}	
 
 	@FXML
-	private void onActionSearchPart(ActionEvent event) {
-	}
-
-	@FXML
-	private void onActionAddPart(ActionEvent event) {
-	}
-
-	@FXML
-	private void onActionModifyPart(ActionEvent event) {
-	}
-
-	@FXML
-	private void onActionDeletePart(ActionEvent event) {
-	}
-
-	@FXML
 	private void onActionSearchProduct(ActionEvent event) {
 	}
 
@@ -80,7 +73,7 @@ public class MainMenuController implements Initializable {
 	}
 
 	@FXML
-	private void onActionModifyProduct(ActionEvent event) {
+	private void onActionSave(ActionEvent event) {
 	}
 
 	@FXML
@@ -88,8 +81,7 @@ public class MainMenuController implements Initializable {
 	}
 
 	@FXML
-	private void onActionExit(ActionEvent event) {
+	private void onActionDisplayMain(ActionEvent event) {
 	}
-
 	
 }
