@@ -5,13 +5,19 @@
  */
 package view_controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -19,7 +25,9 @@ import javafx.scene.control.TextField;
  * @author james.clair
  */
 public class ModifyInsourcedPartController implements Initializable {
-
+	Stage stage;
+	Parent scene;
+	
 	@FXML
 	private RadioButton partInHouseRBtn;
 	@FXML
@@ -52,7 +60,11 @@ public class ModifyInsourcedPartController implements Initializable {
 	}
 
 	@FXML
-	private void onActionDisplayMain(ActionEvent event) {
+	private void onActionDisplayMain(ActionEvent event) throws IOException {
+		stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+		scene = FXMLLoader.load(getClass().getResource("/view_controller/MainMenu.fxml"));
+		stage.setScene(new Scene(scene));
+		stage.show();
 	}
 	
 }

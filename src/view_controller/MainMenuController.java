@@ -5,15 +5,21 @@
  */
 package view_controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -22,6 +28,9 @@ import javafx.scene.control.TextField;
  */
 public class MainMenuController implements Initializable {
 
+	Stage stage;
+	Parent scene;
+	
 	@FXML
 	private TextField searchPartTxt;
 	@FXML
@@ -60,11 +69,18 @@ public class MainMenuController implements Initializable {
 	}
 
 	@FXML
-	private void onActionAddPart(ActionEvent event) {
-	}
+	private void onActionAddPart(ActionEvent event) throws IOException {
+	        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+		scene = FXMLLoader.load(getClass().getResource("/view_controller/AddInsourcedPart.fxml"));
+		stage.setScene(new Scene(scene));
+		stage.show();}
 
 	@FXML
-	private void onActionModifyPart(ActionEvent event) {
+	private void onActionModifyPart(ActionEvent event) throws IOException {
+	        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+		scene = FXMLLoader.load(getClass().getResource("/view_controller/ModifyInsourcedPart.fxml"));
+		stage.setScene(new Scene(scene));
+		stage.show();
 	}
 
 	@FXML
@@ -76,11 +92,19 @@ public class MainMenuController implements Initializable {
 	}
 
 	@FXML
-	private void onActionAddProduct(ActionEvent event) {
+	private void onActionAddProduct(ActionEvent event) throws IOException {
+		stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+		scene = FXMLLoader.load(getClass().getResource("/view_controller/AddProduct.fxml"));
+		stage.setScene(new Scene(scene));
+		stage.show();
 	}
 
 	@FXML
-	private void onActionModifyProduct(ActionEvent event) {
+	private void onActionModifyProduct(ActionEvent event) throws IOException {
+		stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+		scene = FXMLLoader.load(getClass().getResource("/view_controller/ModifyProduct.fxml"));
+		stage.setScene(new Scene(scene));
+		stage.show();
 	}
 
 	@FXML
@@ -89,6 +113,7 @@ public class MainMenuController implements Initializable {
 
 	@FXML
 	private void onActionExit(ActionEvent event) {
+		System.exit(0);
 	}
 
 	
