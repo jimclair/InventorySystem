@@ -14,10 +14,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.Inventory;
+import model.OutsourcedPart;
+import model.Part;
 
 /**
  * FXML Controller class
@@ -56,7 +60,32 @@ public class ModifyOutsourcedPartController implements Initializable {
 	}	
 
 	@FXML
-	private void onActionSaveNewPart(ActionEvent event) {
+	private void onActionSaveNewPart(ActionEvent event) throws IOException {
+		try {
+
+			int id = Integer.parseInt(partIdTxt.getText());
+			String name = partNameTxt.getText();
+			int stock = Integer.parseInt(partInvTxt.getText());
+			double price = Double.parseDouble(partPriceTxt.getText());
+			int max = Integer.parseInt(partMaxTxt.getText());
+			int min = Integer.parseInt(partMinTxt.getText());
+			String companyName = partCompanyNameTxt.getText();
+
+			Inventory.addPart(new OutsourcedPart(id, name, price, stock, max, min, companyName));
+			
+			stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+			scene = FXMLLoader.load(getClass().getResource("/view_controller/MainMenu.fxml"));
+			stage.setScene(new Scene(scene));
+			stage.show();
+		}
+
+		catch (NumberFormatException e) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Warning Dialog");
+			alert.setContentText("Please enter a valid value for each field!");
+			alert.showAndWait();
+		}
+
 	}
 
 	@FXML
@@ -65,5 +94,22 @@ public class ModifyOutsourcedPartController implements Initializable {
 		scene = FXMLLoader.load(getClass().getResource("/view_controller/MainMenu.fxml"));
 		stage.setScene(new Scene(scene));
 		stage.show();}
-	
+
+    	@FXML
+     	void onActionInhouseView(ActionEvent event) throws IOException {
+		stage = (Stage)((RadioButton)event.getSource()).getScene().getWindow();
+		scene = FXMLLoader.load(getClass().getResource("/view_controller/ModifyInsourcedPart.fxml"));
+		stage.setScene(new Scene(scene));
+		stage.show();
+     	}
+
+	public void sendPart(Part part) {
+		partIdTxt.setText(String.valueOf(part.getId()));
+		partNameTxt.setText(part.getName());
+		partInvTxt.setText(String.valueOf(part.getStock()));
+		partPriceTxt.setText(String.valueOf(part.getPrice()));
+		partMaxTxt.setText(String.valueOf(part.getMax()));
+		partMinTxt.setText(String.valueOf(part.getMin()));
+		partCompanyNameTxt.setText(((OutsourcedPart) part).getCompanyName());
+	}
 }

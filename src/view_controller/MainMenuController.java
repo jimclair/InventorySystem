@@ -19,7 +19,11 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.InhousePart;
+import model.Inventory;
+import model.Part;
 
 /**
  * FXML Controller class
@@ -34,7 +38,7 @@ public class MainMenuController implements Initializable {
 	@FXML
 	private TextField searchPartTxt;
 	@FXML
-	private TableView<?> partsTableView;
+	private TableView<Part> partsTableView;
 	@FXML
 	private TableColumn<?, ?> partIdCol;
 	@FXML
@@ -61,7 +65,12 @@ public class MainMenuController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		// TODO
+		partsTableView.setItems(Inventory.getAllParts());
+		partIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));	
+		partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));	
+		partInventoryLvlCol.setCellValueFactory(new PropertyValueFactory<>("stock"));	
+		partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));	
+	
 	}	
 
 	@FXML
@@ -77,12 +86,30 @@ public class MainMenuController implements Initializable {
 
 	@FXML
 	private void onActionModifyPart(ActionEvent event) throws IOException {
-	        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-		scene = FXMLLoader.load(getClass().getResource("/view_controller/ModifyInsourcedPart.fxml"));
+		Part part = partsTableView.getSelectionModel().getSelectedItem();
+		FXMLLoader loader = new FXMLLoader();	
+		
+		if (part instanceof InhousePart) {
+			loader.setLocation(getClass().getResource("/view_controller/ModifyInsourcedPart.fxml"));		loader.load();
+			ModifyInsourcedPartController partController = loader.getController();
+			partController.sendPart(part);
+
+			
+		}
+		else {
+			loader.setLocation(getClass().getResource("/view_controller/ModifyOutsourcedPart.fxml"));		loader.load();
+			ModifyOutsourcedPartController partController = loader.getController();
+			partController.sendPart(part);
+
+		}
+		
+		stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+		Parent scene = loader.getRoot();
 		stage.setScene(new Scene(scene));
 		stage.show();
-	}
 
+	}
+			
 	@FXML
 	private void onActionDeletePart(ActionEvent event) {
 	}
