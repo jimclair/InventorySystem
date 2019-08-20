@@ -8,6 +8,8 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +26,7 @@ import javafx.stage.Stage;
 import model.InhousePart;
 import model.Inventory;
 import model.Part;
+import model.Product;
 
 /**
  * FXML Controller class
@@ -40,25 +43,25 @@ public class MainMenuController implements Initializable {
 	@FXML
 	private TableView<Part> partsTableView;
 	@FXML
-	private TableColumn<?, ?> partIdCol;
+	private TableColumn<Part, Integer> partIdCol;
 	@FXML
-	private TableColumn<?, ?> partNameCol;
+	private TableColumn<Part, String> partNameCol;
 	@FXML
-	private TableColumn<?, ?> partInventoryLvlCol;
+	private TableColumn<Part, Integer> partInventoryLvlCol;
 	@FXML
-	private TableColumn<?, ?> partPriceCol;
+	private TableColumn<Part, Double> partPriceCol;
 	@FXML
 	private TextField searchProductTxt;
 	@FXML
-	private TableView<?> productsTableView;
+	private TableView<Product> productsTableView;
 	@FXML
-	private TableColumn<?, ?> productIdCol;
+	private TableColumn<Product, Integer> productIdCol;
 	@FXML
-	private TableColumn<?, ?> productNameCol;
+	private TableColumn<Product, String> productNameCol;
 	@FXML
-	private TableColumn<?, ?> productInventoryLvlCol;
+	private TableColumn<Product, Integer> productInventoryLvlCol;
 	@FXML
-	private TableColumn<?, ?> productPriceCol;
+	private TableColumn<Product, Double> productPriceCol;
 
 	/**
 	 * Initializes the controller class.
@@ -73,8 +76,27 @@ public class MainMenuController implements Initializable {
 	
 	}	
 
+	private boolean checkForInt(String checkedString) {
+			try {
+				Integer.parseInt(checkedString);
+				return true;
+			}
+			catch (NumberFormatException e) {
+				return false;
+		
+			}
+		}
 	@FXML
-	private void onActionSearchPart(ActionEvent event) {
+	private void onActionSearchPart(ActionEvent event) throws Exception {
+		ObservableList<Part> filteredParts = FXCollections.observableArrayList();
+		String searchTxt = searchPartTxt.getText();
+		
+		if (checkForInt(searchTxt))
+			filteredParts.add(Inventory.lookupPart(Integer.parseInt(searchTxt)));
+		else
+			filteredParts = Inventory.lookupPart(searchTxt);
+			
+		partsTableView.setItems(filteredParts);	
 	}
 
 	@FXML
@@ -90,14 +112,16 @@ public class MainMenuController implements Initializable {
 		FXMLLoader loader = new FXMLLoader();	
 		
 		if (part instanceof InhousePart) {
-			loader.setLocation(getClass().getResource("/view_controller/ModifyInsourcedPart.fxml"));		loader.load();
+			loader.setLocation(getClass().getResource("/view_controller/ModifyInsourcedPart.fxml"));
+			loader.load();
 			ModifyInsourcedPartController partController = loader.getController();
 			partController.sendPart(part);
 
 			
 		}
 		else {
-			loader.setLocation(getClass().getResource("/view_controller/ModifyOutsourcedPart.fxml"));		loader.load();
+			loader.setLocation(getClass().getResource("/view_controller/ModifyOutsourcedPart.fxml"));
+			loader.load();
 			ModifyOutsourcedPartController partController = loader.getController();
 			partController.sendPart(part);
 
@@ -112,10 +136,13 @@ public class MainMenuController implements Initializable {
 			
 	@FXML
 	private void onActionDeletePart(ActionEvent event) {
+		Part selectedPart = partsTableView.getSelectionModel().getSelectedItem();
+		Inventory.deletePart(selectedPart);
 	}
 
 	@FXML
 	private void onActionSearchProduct(ActionEvent event) {
+       		
 	}
 
 	@FXML

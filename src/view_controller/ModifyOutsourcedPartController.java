@@ -8,6 +8,7 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -60,7 +61,7 @@ public class ModifyOutsourcedPartController implements Initializable {
 	}	
 
 	@FXML
-	private void onActionSaveNewPart(ActionEvent event) throws IOException {
+	private void onActionSaveNewPart(ActionEvent event) throws IOException, Exception {
 		try {
 
 			int id = Integer.parseInt(partIdTxt.getText());
@@ -70,8 +71,13 @@ public class ModifyOutsourcedPartController implements Initializable {
 			int max = Integer.parseInt(partMaxTxt.getText());
 			int min = Integer.parseInt(partMinTxt.getText());
 			String companyName = partCompanyNameTxt.getText();
-
-			Inventory.addPart(new OutsourcedPart(id, name, price, stock, max, min, companyName));
+			
+			
+			Part searchPart = Inventory.lookupPart(id);
+			ObservableList<Part> partList = Inventory.getAllParts();
+			int index = partList.indexOf(searchPart);
+			Inventory.updatePart(index, new OutsourcedPart(id, name, price, stock, max, min,companyName));
+			
 			
 			stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 			scene = FXMLLoader.load(getClass().getResource("/view_controller/MainMenu.fxml"));

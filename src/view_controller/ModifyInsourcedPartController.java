@@ -8,6 +8,7 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -60,7 +61,7 @@ public class ModifyInsourcedPartController implements Initializable {
 	}	
 
 	@FXML
-	private void onActionSaveModifyPart(ActionEvent event) throws IOException {
+	private void onActionSaveModifyPart(ActionEvent event) throws IOException, Exception {
 		try {
 
 			int id = Integer.parseInt(partIdTxt.getText());
@@ -70,8 +71,13 @@ public class ModifyInsourcedPartController implements Initializable {
 			int max = Integer.parseInt(partMaxTxt.getText());
 			int min = Integer.parseInt(partMinTxt.getText());
 			int machineId = Integer.parseInt(partMachineIdTxt.getText());
-
-			Inventory.addPart(new InhousePart(id, name, price, stock, max, min, machineId));
+			
+			
+			Part searchPart = Inventory.lookupPart(id);
+			ObservableList<Part> partList = Inventory.getAllParts();
+			int index = partList.indexOf(searchPart);
+			Inventory.updatePart(index, new InhousePart(id, name, price, stock, max, min,machineId));
+			
 			
 			stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 			scene = FXMLLoader.load(getClass().getResource("/view_controller/MainMenu.fxml"));
@@ -84,9 +90,9 @@ public class ModifyInsourcedPartController implements Initializable {
 			alert.setTitle("Warning Dialog");
 			alert.setContentText("Please enter a valid value for each field!");
 			alert.showAndWait();
-		}	
+		}
 	}
-
+	
 	@FXML
 	private void onActionDisplayMain(ActionEvent event) throws IOException {
 		stage = (Stage)((Button)event.getSource()).getScene().getWindow();
