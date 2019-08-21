@@ -13,8 +13,7 @@ import javafx.stage.Stage;
 import model.InhousePart;
 import model.Inventory;
 import model.OutsourcedPart;
-import model.Part;
-
+import model.Product;
 /**
  *
  * @author james.clair
@@ -35,10 +34,11 @@ public class InventorySystem extends Application {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) {
-		InhousePart part1 = new InhousePart(1, "test part 1", 5.00, 5, 2, 3, 14); 
-		OutsourcedPart part2 = new OutsourcedPart(2, "test part 2", 6.00, 5, 2, 3, "company name"); 
-		Inventory.addPart(part1);
-		Inventory.addPart(part2);
+		Inventory.addPart(new InhousePart(1, "test part 1", 5.00, 5, 2, 3, 14));
+		Inventory.addPart(new OutsourcedPart(2, "test part 2", 6.00, 5, 2, 3, "company name"));
+		
+		Inventory.addProduct(new Product(1, "test part 1", 5.00, 5, 2, 3));
+		
 		launch(args);
 	}
 	

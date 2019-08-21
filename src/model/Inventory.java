@@ -36,8 +36,14 @@ public class Inventory {
 	}
 
 	public static Product lookupProduct(int productId) throws Exception{
-		return null;
+		for (Product product : allProducts)	{
+			if (product.getId() == productId) {
+				return product;	
+			}	
+		}
+		return null;	
 	}
+
 	public static ObservableList<Part> lookupPart(String partName) {
 		ObservableList<Part> filteredParts = FXCollections.observableArrayList();	
 
@@ -51,8 +57,15 @@ public class Inventory {
 	}
 	
 	public static ObservableList<Product> lookupProduct(String productName) {
-		return null;
-	
+		ObservableList<Product> filteredProducts = FXCollections.observableArrayList();	
+
+		
+		for (Product product : allProducts)	{
+			if (product.getName().contains(productName)) {
+				filteredProducts.add(product);	
+			}	
+		}
+		return filteredProducts;	
 	}
 	
 	public static void updatePart(int index, Part selectedPart) {
@@ -61,7 +74,8 @@ public class Inventory {
 	}
 
 	public static void updateProduct(int index, Product selectedProduct) {
-	
+		allProducts.remove(index);
+		addProduct(selectedProduct);
 	}
 
 	public static void deletePart(Part selectedPart) {
@@ -69,7 +83,7 @@ public class Inventory {
 	}
 
 	public static void deleteProduct(Product selectedProduct) {
-	
+		allProducts.remove(selectedProduct);		
 	}
 
 	public static ObservableList<Part> getAllParts() {
@@ -78,7 +92,7 @@ public class Inventory {
 	}
 
 	public static ObservableList<Product> getAllProducts() {
-		return null;
+		return allProducts;
 	
 	}
 

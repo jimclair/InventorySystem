@@ -68,12 +68,20 @@ public class MainMenuController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		
 		partsTableView.setItems(Inventory.getAllParts());
 		partIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));	
 		partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));	
 		partInventoryLvlCol.setCellValueFactory(new PropertyValueFactory<>("stock"));	
 		partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));	
-	
+		
+		
+		productsTableView.setItems(Inventory.getAllProducts());
+		productIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));	
+		productNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));	
+		productInventoryLvlCol.setCellValueFactory(new PropertyValueFactory<>("stock"));	
+		productPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));	
+		
 	}	
 
 	private boolean checkForInt(String checkedString) {
@@ -116,6 +124,7 @@ public class MainMenuController implements Initializable {
 			loader.load();
 			ModifyInsourcedPartController partController = loader.getController();
 			partController.sendPart(part);
+			
 
 			
 		}
@@ -141,8 +150,16 @@ public class MainMenuController implements Initializable {
 	}
 
 	@FXML
-	private void onActionSearchProduct(ActionEvent event) {
-       		
+	private void onActionSearchProduct(ActionEvent event) throws Exception {
+  		ObservableList<Product> filteredProducts = FXCollections.observableArrayList();
+		String searchTxt = searchProductTxt.getText();
+		
+		if (checkForInt(searchTxt))
+			filteredProducts.add(Inventory.lookupProduct(Integer.parseInt(searchTxt)));
+		else
+			filteredProducts = Inventory.lookupProduct(searchTxt);
+			
+		productsTableView.setItems(filteredProducts);	
 	}
 
 	@FXML
@@ -155,14 +172,23 @@ public class MainMenuController implements Initializable {
 
 	@FXML
 	private void onActionModifyProduct(ActionEvent event) throws IOException {
-		stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-		scene = FXMLLoader.load(getClass().getResource("/view_controller/ModifyProduct.fxml"));
+
+		Product product = productsTableView.getSelectionModel().getSelectedItem();
+		FXMLLoader loader = new FXMLLoader();	
+		loader.setLocation(getClass().getResource("/view_controller/ModifyProduct.fxml"));
+		loader.load();
+		ModifyProductController productController = loader.getController();
+		productController.sendProduct(product);
+		stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+		Parent scene = loader.getRoot();
 		stage.setScene(new Scene(scene));
 		stage.show();
-	}
+}
 
 	@FXML
 	private void onActionDeleteProduct(ActionEvent event) {
+		Product selectedProduct = productsTableView.getSelectionModel().getSelectedItem();
+		Inventory.deleteProduct(selectedProduct);
 	}
 
 	@FXML

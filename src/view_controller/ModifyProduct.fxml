@@ -145,8 +145,8 @@
                   </HBox>
                   <TableView fx:id="productAddTableView" prefHeight="220.0" prefWidth="540.0">
                     <columns>
-                      <TableColumn fx:id="addPartIdCol" prefWidth="135.0" text="Part ID" />
-                        <TableColumn fx:id="addPartNameCol" prefWidth="135.0" text="Part Name" />
+                      <TableColumn fx:id="addProductIdCol" prefWidth="135.0" text="Part ID" />
+                        <TableColumn fx:id="addProductNameCol" prefWidth="135.0" text="Part Name" />
                         <TableColumn fx:id="addInventoryLevelCol" prefWidth="135.0" text="Inventory Level" />
                         <TableColumn fx:id="addPriceCol" prefWidth="135.0" text="Price per Unit" />
                     </columns>
@@ -160,10 +160,10 @@
                         </Button>
                      </children>
                   </VBox>
-                  <TableView fx:id="deleteProductTableView" prefHeight="220.0" prefWidth="540.0">
+                  <TableView fx:id="productDeleteTableView" prefHeight="220.0" prefWidth="540.0">
                     <columns>
-                        <TableColumn fx:id="deletePartIdCol" prefWidth="135.0" text="Part ID" />
-                        <TableColumn fx:id="deletePartNameCol" prefWidth="135.0" text="Part Name" />
+                        <TableColumn fx:id="deleteProductIdCol" prefWidth="135.0" text="Part ID" />
+                        <TableColumn fx:id="deleteProductNameCol" prefWidth="135.0" text="Part Name" />
                         <TableColumn fx:id="deleteInventoryLevelCol" prefWidth="135.0" text="Inventory Level" />
                         <TableColumn fx:id="deletePriceCol" prefWidth="135.0" text="Price per Unit" />
                     </columns>

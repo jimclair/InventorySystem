@@ -8,6 +8,8 @@ package view_controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +20,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.InhousePart;
+import model.Inventory;
+import model.Product;
 
 /**
  * FXML Controller class
@@ -44,25 +50,25 @@ public class AddProductController implements Initializable {
 	@FXML
 	private TextField productSearchTxt;
 	@FXML
-	private TableView<?> productAddTableView;
+	private TableView<Product> productAddTableView;
 	@FXML
-	private TableColumn<?, ?> addPartIdCol;
+	private TableColumn<Product, Integer> addProductIdCol;
 	@FXML
-	private TableColumn<?, ?> addPartNameCol;
+	private TableColumn<Product, String> addProductNameCol;
 	@FXML
-	private TableColumn<?, ?> addInventoryLevelCol;
+	private TableColumn<Product, Integer> addInventoryLevelCol;
 	@FXML
-	private TableColumn<?, ?> addPriceCol;
+	private TableColumn<Product, Double> addPriceCol;
 	@FXML
-	private TableView<?> productDeleteTableView;
+	private TableView<Product> productDeleteTableView;
 	@FXML
-	private TableColumn<?, ?> deletePartIdCol;
+	private TableColumn<Product, Integer> deleteProductIdCol;
 	@FXML
-	private TableColumn<?, ?> deletePartNameCol;
+	private TableColumn<Product, String> deleteProductNameCol;
 	@FXML
-	private TableColumn<?, ?> deleteInventoryLevelCol;
+	private TableColumn<Product, Integer> deleteInventoryLevelCol;
 	@FXML
-	private TableColumn<?, ?> deletePriceCol;
+	private TableColumn<Product, Double> deletePriceCol;
 
 	/**
 	 * Initializes the controller class.
@@ -70,22 +76,86 @@ public class AddProductController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		// TODO
+		productAddTableView.setItems(Inventory.getAllProducts());
+		addProductIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));	
+		addProductNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));	
+		addInventoryLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));	
+		addPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));	
+		
+		productDeleteTableView.setItems(Inventory.getAllProducts());
+		deleteProductIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));	
+		deleteProductNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));	
+		deleteInventoryLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));	
+		deletePriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 	}	
 
+	private boolean checkForInt(String checkedString) {
+		try {
+			Integer.parseInt(checkedString);
+			return true;
+		}
+		catch (NumberFormatException e) {
+			return false;
+	
+		}
+	}
+	
 	@FXML
-	private void onActionSearchProduct(ActionEvent event) {
+	private void onActionSearchProduct(ActionEvent event) throws Exception {
+	  	ObservableList<Product> filteredProducts = FXCollections.observableArrayList();
+		String searchTxt = productSearchTxt.getText();
+		
+		if (checkForInt(searchTxt))
+			filteredProducts.add(Inventory.lookupProduct(Integer.parseInt(searchTxt)));
+		else
+			filteredProducts = Inventory.lookupProduct(searchTxt);
+			
+		productAddTableView.setItems(filteredProducts);
+		productDeleteTableView.setItems(filteredProducts);
 	}
 
 	@FXML
-	private void onActionAddProduct(ActionEvent event) {
+	private void onActionAddProduct(ActionEvent event) throws Exception {
+		int id = Integer.parseInt(productIdTxt.getText());
+		String name = productNameTxt.getText();
+		int stock = Integer.parseInt(productInvTxt.getText());
+		double price = Double.parseDouble(productPriceTxt.getText());
+		int max = Integer.parseInt(productMaxTxt.getText());
+		int min = Integer.parseInt(productMinTxt.getText());
+		
+		Product product = new Product(id, name, price, stock, max, min);
+	
+
+		if(Inventory.lookupProduct(id) == null) 
+			Inventory.addProduct(product);	
+		
+
 	}
 
 	@FXML
-	private void onActionSaveNewProduct(ActionEvent event) {
+	private void onActionSaveNewProduct(ActionEvent event) throws IOException, Exception {
+		int id = Integer.parseInt(productIdTxt.getText());
+		String name = productNameTxt.getText();
+		int stock = Integer.parseInt(productInvTxt.getText());
+		double price = Double.parseDouble(productPriceTxt.getText());
+		int max = Integer.parseInt(productMaxTxt.getText());
+		int min = Integer.parseInt(productMinTxt.getText());
+		
+		Product product = new Product(id, name, price, stock, max, min);
+		
+		if(Inventory.lookupProduct(id) == null) 
+			Inventory.addProduct(product);					
+		
+		stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+		scene = FXMLLoader.load(getClass().getResource("/view_controller/MainMenu.fxml"));
+		stage.setScene(new Scene(scene));
+		stage.show();
 	}
 
 	@FXML
 	private void onActionDeleteProduct(ActionEvent event) {
+		Product selectedProduct = productDeleteTableView.getSelectionModel().getSelectedItem();
+		Inventory.deleteProduct(selectedProduct);
 	}
 
 	@FXML
