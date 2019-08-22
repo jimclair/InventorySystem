@@ -5,9 +5,6 @@
  */
 package model;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -16,7 +13,6 @@ import javafx.collections.ObservableList;
  * @author james.clair
  */
 public class Product extends Inventory {
-	private final SimpleIntegerProperty productIdProperty= new SimpleIntegerProperty(0);
 	
 	ObservableList<Part> associatedParts = FXCollections.observableArrayList();
 	int id;
@@ -40,11 +36,11 @@ public class Product extends Inventory {
 	}
 
 	public void addAssociatedPart(Part associatedPart) {
-	
+		associatedParts.add(associatedPart);
 	}
 
 	public void deleteAssociatedPart(Part associatedPart) {
-	
+		associatedParts.remove(associatedPart);
 	}
 	
 	public int getId() {
@@ -99,8 +95,5 @@ public class Product extends Inventory {
 		this.max = max;
 	}
 
-    public IntegerProperty productIdProperty(){
-        return productIdProperty;
-    }
 	
 }

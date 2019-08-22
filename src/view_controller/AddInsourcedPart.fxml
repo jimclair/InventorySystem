@@ -56,10 +56,13 @@
                         <Insets left="90.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="partIdTxt" prefHeight="43.0" prefWidth="138.0">
+                  <TextField fx:id="partIdTxt" disable="true" prefHeight="43.0" prefWidth="138.0" text="Auto Gen - Disabled">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
+                     <font>
+                        <Font name="System Italic" size="12.0" />
+                     </font>
                   </TextField>
                </children>
             </HBox>

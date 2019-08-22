@@ -16,6 +16,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -23,6 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Inventory;
+import model.Part;
 import model.Product;
 
 /**
@@ -49,25 +52,25 @@ public class ModifyProductController implements Initializable {
 	@FXML
 	private TextField productSearchTxt;
 	@FXML
-	private TableView<Product> productAddTableView;
+	private TableView<Part> productAddTableView;
 	@FXML
-	private TableColumn<Product, Integer> addProductIdCol;
+	private TableColumn<Part, Integer> addIdCol;
 	@FXML
-	private TableColumn<Product, String> addProductNameCol;
+	private TableColumn<Part, String> addNameCol;
 	@FXML
-	private TableColumn<Product, Integer> addInventoryLevelCol;
+	private TableColumn<Part, Integer> addInventoryLevelCol;
 	@FXML
-	private TableColumn<Product, Double> addPriceCol;
+	private TableColumn<Part, Double> addPriceCol;
 	@FXML
-	private TableView<Product> productDeleteTableView;
+	private TableView<Part> productDeleteTableView;
 	@FXML
-	private TableColumn<Product, Integer> deleteProductIdCol;
+	private TableColumn<Part, Integer> deleteIdCol;
 	@FXML
-	private TableColumn<Product, String> deleteProductNameCol;
+	private TableColumn<Part, String> deleteNameCol;
 	@FXML
-	private TableColumn<Product, Integer> deleteInventoryLevelCol;
+	private TableColumn<Part, Integer> deleteInventoryLevelCol;
 	@FXML
-	private TableColumn<Product, Double> deletePriceCol;
+	private TableColumn<Part, Double> deletePriceCol;
 
 	/**
 	 * Initializes the controller class.
@@ -75,15 +78,15 @@ public class ModifyProductController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		// TODO
-		productAddTableView.setItems(Inventory.getAllProducts());
-		addProductIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));	
-		addProductNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));	
+		productAddTableView.setItems(Inventory.getAllParts());
+		addIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));	
+		addNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));	
 		addInventoryLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));	
 		addPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));	
 		
-		productDeleteTableView.setItems(Inventory.getAllProducts());
-		deleteProductIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));	
-		deleteProductNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));	
+		
+		deleteIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));	
+		deleteNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));	
 		deleteInventoryLevelCol.setCellValueFactory(new PropertyValueFactory<>("stock"));	
 		deletePriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
 	}	
@@ -101,57 +104,84 @@ public class ModifyProductController implements Initializable {
 	
 	@FXML
 	private void onActionSearchProduct(ActionEvent event) throws Exception {
-	  	ObservableList<Product> filteredProducts = FXCollections.observableArrayList();
+	  	ObservableList<Part> filteredParts = FXCollections.observableArrayList();
 		String searchTxt = productSearchTxt.getText();
 		
 		if (checkForInt(searchTxt))
-			filteredProducts.add(Inventory.lookupProduct(Integer.parseInt(searchTxt)));
+			filteredParts.add(Inventory.lookupPart(Integer.parseInt(searchTxt)));
 		else
-			filteredProducts = Inventory.lookupProduct(searchTxt);
+			filteredParts = Inventory.lookupPart(searchTxt);
 			
-		productAddTableView.setItems(filteredProducts);
-		productDeleteTableView.setItems(filteredProducts);
+		productAddTableView.setItems(filteredParts);
 	}
 
 	@FXML
-	private void onActionAddProduct(ActionEvent event) throws Exception {
-		int id = Integer.parseInt(productIdTxt.getText());
-		String name = productNameTxt.getText();
-		int stock = Integer.parseInt(productInvTxt.getText());
-		double price = Double.parseDouble(productPriceTxt.getText());
-		int max = Integer.parseInt(productMaxTxt.getText());
-		int min = Integer.parseInt(productMinTxt.getText());
+	private void onActionAddAssocPart(ActionEvent event) throws Exception {
+		Part selectedPart = productAddTableView.getSelectionModel().getSelectedItem();	
+		int id = 0, max = 0, min = 0, stock = 0;
+		String name = "";
+		double price = 0;
 		
-		Product searchProduct = Inventory.lookupProduct(id);
-		ObservableList<Product> productList = Inventory.getAllProducts();
-		int index = productList.indexOf(searchProduct);
-		Inventory.updateProduct(index, new Product(id, name, price, stock, max, min));
+		Product tempProduct = new Product(id, name, price, stock, max, min);
+		tempProduct.addAssociatedPart(selectedPart);
+		
+		if (!productDeleteTableView.getItems().isEmpty()) {
+			productDeleteTableView.getItems().forEach((existingAssocParts) -> {
+				tempProduct.addAssociatedPart(existingAssocParts);
+			});
+		}
+		
+		productDeleteTableView.setItems(tempProduct.getAllAssociatedParts());
+		
+
 	}
+
 
 	@FXML
 	private void onActionSave(ActionEvent event) throws IOException, Exception {
-		int id = Integer.parseInt(productIdTxt.getText());
-		String name = productNameTxt.getText();
-		int stock = Integer.parseInt(productInvTxt.getText());
-		double price = Double.parseDouble(productPriceTxt.getText());
-		int max = Integer.parseInt(productMaxTxt.getText());
-		int min = Integer.parseInt(productMinTxt.getText());
+		try {
+			int id = Integer.parseInt(productIdTxt.getText());
+			String name = productNameTxt.getText();
+			int stock = Integer.parseInt(productInvTxt.getText());
+			double price = Double.parseDouble(productPriceTxt.getText());
+			int max = Integer.parseInt(productMaxTxt.getText());
+			int min = Integer.parseInt(productMinTxt.getText());
+			
+			Product newProduct = new Product(id, name, price, stock, max, min);
 		
-		Product searchProduct = Inventory.lookupProduct(id);
-		ObservableList<Product> productList = Inventory.getAllProducts();
-		int index = productList.indexOf(searchProduct);
-		Inventory.updateProduct(index, new Product(id, name, price, stock, max, min));
-		
-		stage = (Stage)((Button)event.getSource()).getScene().getWindow();
-		scene = FXMLLoader.load(getClass().getResource("/view_controller/MainMenu.fxml"));
-		stage.setScene(new Scene(scene));
-		stage.show();
+
+			productDeleteTableView.getItems().forEach((existingAssocParts) -> {
+				newProduct.addAssociatedPart(existingAssocParts);});
+			
+			System.out.println(newProduct.getAllAssociatedParts().get(0));
+			
+			Product searchProduct = Inventory.lookupProduct(id);
+			int index = Inventory.getAllProducts().indexOf(searchProduct);
+			Inventory.updateProduct(index, newProduct);
+			
+			stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+			scene = FXMLLoader.load(getClass().getResource("/view_controller/MainMenu.fxml"));
+			stage.setScene(new Scene(scene));
+			stage.show();
+		} catch (IndexOutOfBoundsException e) {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("No parts associated");
+			alert.setContentText("Each product must have at least one associated part.  The bottom table contains this products currently associated parts.");
+			
+			alert.showAndWait();
+		} catch (NumberFormatException e) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("Warning Dialog");
+			alert.setContentText("Please enter a valid value for each field!");
+			alert.showAndWait();
+		}	
 	}
 
 	@FXML
-	private void onActionDeleteProduct(ActionEvent event) {
-		Product selectedProduct = productDeleteTableView.getSelectionModel().getSelectedItem();
-		Inventory.deleteProduct(selectedProduct);
+	private void onActionDeleteAssocPart(ActionEvent event) {
+		Part selectedPart = productDeleteTableView.getSelectionModel().getSelectedItem();
+		productDeleteTableView.getItems().remove(selectedPart);
 	}
 
 	@FXML
@@ -169,5 +199,7 @@ public class ModifyProductController implements Initializable {
 		productPriceTxt.setText(String.valueOf(product.getPrice()));
 		productMaxTxt.setText(String.valueOf(product.getMax()));
 		productMinTxt.setText(String.valueOf(product.getMin()));
+		productDeleteTableView.setItems(product.getAllAssociatedParts());
+	
 	}
 }

@@ -117,5 +117,6 @@ public class ModifyInsourcedPartController implements Initializable {
 		partMaxTxt.setText(String.valueOf(part.getMax()));
 		partMinTxt.setText(String.valueOf(part.getMin()));
 		partMachineIdTxt.setText(String.valueOf(((InhousePart) part).getMachineId()));
+		
 	}
 }

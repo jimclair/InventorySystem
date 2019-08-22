@@ -148,15 +148,15 @@
                   </HBox>
                   <TableView fx:id="productAddTableView" prefHeight="220.0" prefWidth="540.0">
                     <columns>
-                      <TableColumn fx:id="addProductIdCol" prefWidth="135.0" text="Part ID" />
-                        <TableColumn fx:id="addProductNameCol" prefWidth="135.0" text="Part Name" />
+                      <TableColumn fx:id="addIdCol" prefWidth="135.0" text="Part ID" />
+                        <TableColumn fx:id="addNameCol" prefWidth="135.0" text="Part Name" />
                         <TableColumn fx:id="addInventoryLevelCol" prefWidth="135.0" text="Inventory Level" />
                         <TableColumn fx:id="addPriceCol" prefWidth="135.0" text="Price per Unit" />
                     </columns>
                   </TableView>
                   <VBox alignment="CENTER_RIGHT" prefHeight="142.0" prefWidth="540.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#onActionAddProduct" prefHeight="37.0" prefWidth="90.0" text="Add">
+                        <Button mnemonicParsing="false" onAction="#onActionAddAssocPart" prefHeight="37.0" prefWidth="90.0" text="Add">
                            <VBox.margin>
                               <Insets right="36.0" />
                            </VBox.margin>
@@ -165,8 +165,8 @@
                   </VBox>
                   <TableView fx:id="productDeleteTableView" prefHeight="220.0" prefWidth="540.0">
                     <columns>
-                        <TableColumn fx:id="deleteProductIdCol" prefWidth="135.0" text="Part ID" />
-                        <TableColumn fx:id="deleteProductNameCol" prefWidth="135.0" text="Part Name" />
+                        <TableColumn fx:id="deleteIdCol" prefWidth="135.0" text="Part ID" />
+                        <TableColumn fx:id="deleteNameCol" prefWidth="135.0" text="Part Name" />
                         <TableColumn fx:id="deleteInventoryLevelCol" prefWidth="135.0" text="Inventory Level" />
                         <TableColumn fx:id="deletePriceCol" prefWidth="135.0" text="Price per Unit" />
                     </columns>
@@ -180,7 +180,7 @@
                         </Button>
                         <VBox alignment="BOTTOM_LEFT" prefHeight="90.0" prefWidth="127.0">
                            <children>
-                            <Button mnemonicParsing="false" onAction="#onActionDeleteProduct" prefHeight="38.0" prefWidth="91.0" text="Delete">
+                            <Button mnemonicParsing="false" onAction="#onActionDeleteAssocPart" prefHeight="38.0" prefWidth="91.0" text="Delete">
                                  <VBox.margin>
                                     <Insets bottom="10.0" />
                                  </VBox.margin>

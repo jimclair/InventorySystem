@@ -62,8 +62,13 @@ public class AddInsourcedPartController implements Initializable {
 	@FXML
 	private void onActionSaveNewPart(ActionEvent event) throws IOException {
 		try {
-
-			int id = Integer.parseInt(partIdTxt.getText());
+			int lastId = 0;
+			for (Part part : Inventory.getAllParts()) {
+				if (part.getId() > lastId)
+					lastId = part.getId();
+			}
+			
+			int id = lastId + 1;
 			String name = partNameTxt.getText();
 			int stock = Integer.parseInt(partInvTxt.getText());
 			double price = Double.parseDouble(partPriceTxt.getText());

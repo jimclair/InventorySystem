@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Inventory;
 import model.OutsourcedPart;
+import model.Part;
 
 /**
  * FXML Controller class
@@ -61,8 +62,13 @@ public class AddOutsourcedPartController implements Initializable {
 	@FXML
 	private void onActionSaveNewPart(ActionEvent event) throws IOException, IOException, IOException {
 		try {
-
-			int id = Integer.parseInt(partIdTxt.getText());
+			int lastId = 0;
+			for (Part part : Inventory.getAllParts()) {
+				if (part.getId() > lastId)
+					lastId = part.getId();
+			}
+			
+			int id = lastId + 1;
 			String name = partNameTxt.getText();
 			int stock = Integer.parseInt(partInvTxt.getText());
 			double price = Double.parseDouble(partPriceTxt.getText());
