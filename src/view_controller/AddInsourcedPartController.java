@@ -19,7 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import model.InhousePart;
+import model.InHouse;
 import model.Inventory;
 import model.Part;
 
@@ -59,6 +59,7 @@ public class AddInsourcedPartController implements Initializable {
 		// TODO
 	}	
 
+
 	@FXML
 	private void onActionSaveNewPart(ActionEvent event) throws IOException {
 		try {
@@ -76,7 +77,7 @@ public class AddInsourcedPartController implements Initializable {
 			int min = Integer.parseInt(partMinTxt.getText());
 			int machineId = Integer.parseInt(partMachineIdTxt.getText());
 
-			Inventory.addPart(new InhousePart(id, name, price, stock, max, min, machineId));
+			Inventory.addPart(new InHouse(id, name, price, stock, min, max, machineId));
 			
 			stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 			scene = FXMLLoader.load(getClass().getResource("/view_controller/MainMenu.fxml"));
@@ -101,8 +102,11 @@ public class AddInsourcedPartController implements Initializable {
 	}
     	@FXML
 	private void onActionOutsourcedView(ActionEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/view_controller/AddOutsourcedPart.fxml"));
+		loader.load();	
 		stage = (Stage)((RadioButton)event.getSource()).getScene().getWindow();
-		scene = FXMLLoader.load(getClass().getResource("/view_controller/AddOutsourcedPart.fxml"));
+		Parent scene = loader.getRoot();
 		stage.setScene(new Scene(scene));
 		stage.show();
 

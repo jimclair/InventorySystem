@@ -75,4 +75,9 @@ public abstract class Part extends Inventory {
 		this.max = max;
 	}
 
+	public void setPrice(int max) {
+		double doubleMax = max;
+		setPrice(doubleMax);
+	}
+
 }

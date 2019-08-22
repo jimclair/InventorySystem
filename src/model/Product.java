@@ -14,13 +14,13 @@ import javafx.collections.ObservableList;
  */
 public class Product extends Inventory {
 	
-	ObservableList<Part> associatedParts = FXCollections.observableArrayList();
-	int id;
-	String name;
-	double price;
-	int stock;
-	int min;
-	int max;
+	private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
+	private int id;
+	private String name;
+	private double price;
+	private int stock;
+	private int min;
+	private int max;
 
 	public Product(int id, String name, double price, int stock, int min, int max) {
 		this.id = id;
@@ -94,6 +94,10 @@ public class Product extends Inventory {
 	public void setMax(int max) {
 		this.max = max;
 	}
-
+	
+	public void setPrice(int max) {
+		double doubleMax = max;
+		setPrice(doubleMax);
+	}
 	
 }

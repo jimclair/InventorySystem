@@ -20,7 +20,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.Inventory;
-import model.OutsourcedPart;
+import model.Outsourced;
 import model.Part;
 
 /**
@@ -57,6 +57,10 @@ public class AddOutsourcedPartController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		// TODO
+		if (partIdTxt.getText() == "Auto Gen - Disabled") {
+			partIdTxt.setText("Auto Gen - Disabled");
+			partCompanyNameTxt.clear();
+		}
 	}	
 
 	@FXML
@@ -76,7 +80,7 @@ public class AddOutsourcedPartController implements Initializable {
 			int min = Integer.parseInt(partMinTxt.getText());
 			String companyName = partCompanyNameTxt.getText();
 
-			Inventory.addPart(new OutsourcedPart(id, name, price, stock, max, min, companyName));
+			Inventory.addPart(new Outsourced(id, name, price, stock, min, max, companyName));
 			
 			stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 			scene = FXMLLoader.load(getClass().getResource("/view_controller/MainMenu.fxml"));
@@ -102,8 +106,11 @@ public class AddOutsourcedPartController implements Initializable {
 
     	@FXML
      	void onActionInhouseView(ActionEvent event) throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(getClass().getResource("/view_controller/AddInsourcedPart.fxml"));
+		loader.load();	
 		stage = (Stage)((RadioButton)event.getSource()).getScene().getWindow();
-		scene = FXMLLoader.load(getClass().getResource("/view_controller/AddInsourcedPart.fxml"));
+		Parent scene = loader.getRoot();
 		stage.setScene(new Scene(scene));
 		stage.show();
      	}	

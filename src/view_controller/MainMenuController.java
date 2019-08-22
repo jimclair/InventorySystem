@@ -22,7 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.InhousePart;
+import model.InHouse;
 import model.Inventory;
 import model.Part;
 import model.Product;
@@ -36,7 +36,7 @@ public class MainMenuController implements Initializable {
 
 	Stage stage;
 	Parent scene;
-	
+
 	@FXML
 	private TextField searchPartTxt;
 	@FXML
@@ -67,81 +67,78 @@ public class MainMenuController implements Initializable {
 	 */
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		
+
 		partsTableView.setItems(Inventory.getAllParts());
-		partIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));	
-		partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));	
-		partInventoryLvlCol.setCellValueFactory(new PropertyValueFactory<>("stock"));	
-		partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));	
-		
-		
+		partIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+		partNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+		partInventoryLvlCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+		partPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
 		productsTableView.setItems(Inventory.getAllProducts());
-		productIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));	
-		productNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));	
-		productInventoryLvlCol.setCellValueFactory(new PropertyValueFactory<>("stock"));	
-		productPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));	
-		
-	}	
+		productIdCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+		productNameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+		productInventoryLvlCol.setCellValueFactory(new PropertyValueFactory<>("stock"));
+		productPriceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+	}
 
 	private boolean checkForInt(String checkedString) {
-			try {
-				Integer.parseInt(checkedString);
-				return true;
-			}
-			catch (NumberFormatException e) {
-				return false;
-		
-			}
+		try {
+			Integer.parseInt(checkedString);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+
 		}
+	}
+
 	@FXML
 	private void onActionSearchPart(ActionEvent event) throws Exception {
 		ObservableList<Part> filteredParts = FXCollections.observableArrayList();
 		String searchTxt = searchPartTxt.getText();
-		
+
 		if (checkForInt(searchTxt))
 			filteredParts.add(Inventory.lookupPart(Integer.parseInt(searchTxt)));
 		else
 			filteredParts = Inventory.lookupPart(searchTxt);
-			
-		partsTableView.setItems(filteredParts);	
+
+		partsTableView.setItems(filteredParts);
 	}
 
 	@FXML
 	private void onActionAddPart(ActionEvent event) throws IOException {
-	        stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+		stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 		scene = FXMLLoader.load(getClass().getResource("/view_controller/AddInsourcedPart.fxml"));
 		stage.setScene(new Scene(scene));
-		stage.show();}
+		stage.show();
+	}
 
 	@FXML
 	private void onActionModifyPart(ActionEvent event) throws IOException {
 		Part part = partsTableView.getSelectionModel().getSelectedItem();
-		FXMLLoader loader = new FXMLLoader();	
-		
-		if (part instanceof InhousePart) {
+		FXMLLoader loader = new FXMLLoader();
+
+		if (part instanceof InHouse) {
 			loader.setLocation(getClass().getResource("/view_controller/ModifyInsourcedPart.fxml"));
 			loader.load();
 			ModifyInsourcedPartController partController = loader.getController();
 			partController.sendPart(part);
-			
 
-			
-		}
-		else {
+		} else {
 			loader.setLocation(getClass().getResource("/view_controller/ModifyOutsourcedPart.fxml"));
 			loader.load();
 			ModifyOutsourcedPartController partController = loader.getController();
 			partController.sendPart(part);
 
 		}
-		
+
 		stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 		Parent scene = loader.getRoot();
 		stage.setScene(new Scene(scene));
 		stage.show();
-
+		
 	}
-			
+
 	@FXML
 	private void onActionDeletePart(ActionEvent event) {
 		Part selectedPart = partsTableView.getSelectionModel().getSelectedItem();
@@ -150,20 +147,20 @@ public class MainMenuController implements Initializable {
 
 	@FXML
 	private void onActionSearchProduct(ActionEvent event) throws Exception {
-  		ObservableList<Product> filteredProducts = FXCollections.observableArrayList();
+		ObservableList<Product> filteredProducts = FXCollections.observableArrayList();
 		String searchTxt = searchProductTxt.getText();
-		
+
 		if (checkForInt(searchTxt))
 			filteredProducts.add(Inventory.lookupProduct(Integer.parseInt(searchTxt)));
 		else
 			filteredProducts = Inventory.lookupProduct(searchTxt);
-			
-		productsTableView.setItems(filteredProducts);	
+
+		productsTableView.setItems(filteredProducts);
 	}
 
 	@FXML
 	private void onActionAddProduct(ActionEvent event) throws IOException {
-		stage = (Stage)((Button)event.getSource()).getScene().getWindow();
+		stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
 		scene = FXMLLoader.load(getClass().getResource("/view_controller/AddProduct.fxml"));
 		stage.setScene(new Scene(scene));
 		stage.show();
@@ -182,7 +179,7 @@ public class MainMenuController implements Initializable {
 		Parent scene = loader.getRoot();
 		stage.setScene(new Scene(scene));
 		stage.show();
-}
+	}
 
 	@FXML
 	private void onActionDeleteProduct(ActionEvent event) {
@@ -195,5 +192,4 @@ public class MainMenuController implements Initializable {
 		System.exit(0);
 	}
 
-	
 }
