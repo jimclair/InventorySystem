@@ -13,60 +13,84 @@ import javafx.collections.ObservableList;
  * @author james.clair
  */
 public class Inventory {
-	private static ObservableList<Part> allParts = FXCollections.observableArrayList();
-	private static ObservableList<Product> allProducts = FXCollections.observableArrayList();
+	private static final ObservableList<Part> allParts = FXCollections.observableArrayList();
+	private static final ObservableList<Product> allProducts = FXCollections.observableArrayList();
 
-	public void addPart(Part newPart) {
+	public static void addPart(Part newPart) {
+		allParts.add(newPart);
+	}
+
+	public static void addProduct(Product newProduct) {
+		allProducts.add(newProduct);
+	}
+
+	public static Part lookupPart(int partId) throws Exception {
+		for (Part part : allParts)	{
+			if (part.getId() == partId) {
+				return part;	
+			}	
+		}
+		return null;	
+	}
+
+	public static Product lookupProduct(int productId) throws Exception{
+		for (Product product : allProducts)	{
+			if (product.getId() == productId) {
+				return product;	
+			}	
+		}
+		return null;	
+	}
+
+	public static ObservableList<Part> lookupPart(String partName) {
+		ObservableList<Part> filteredParts = FXCollections.observableArrayList();	
+
 		
+		for (Part part : allParts)	{
+			if (part.getName().contains(partName)) {
+				filteredParts.add(part);	
+			}	
+		}
+		return filteredParts;	
+	}
+	
+	public static ObservableList<Product> lookupProduct(String productName) {
+		ObservableList<Product> filteredProducts = FXCollections.observableArrayList();	
+
+		
+		for (Product product : allProducts)	{
+			if (product.getName().contains(productName)) {
+				filteredProducts.add(product);	
+			}	
+		}
+		return filteredProducts;	
+	}
+	
+	public static void updatePart(int index, Part selectedPart) {
+		allParts.remove(index);
+		addPart(selectedPart);
 	}
 
-	public void addProduct(Product newProduct) {
-	
+	public static void updateProduct(int index, Product selectedProduct) {
+		allProducts.remove(index);
+		addProduct(selectedProduct);
 	}
 
-	public Part lookupPart() {
-		return null;
-	
+	public static void deletePart(Part selectedPart) {
+		allParts.remove(selectedPart);
 	}
 
-	public Product lookupProduct(int productId){
-		return null;
-	
+	public static void deleteProduct(Product selectedProduct) {
+		allProducts.remove(selectedProduct);		
 	}
 
-	public ObservableList<Part> lookupPart(String partName) {
-		return null;
-	
-	}
-	
-	public ObservableList<Product> lookupProduct(String productName) {
-		return null;
-	
-	}
-	
-	public void updatePart(int index, Part selectedPart) {
-	
-	}
-
-	public void updateProduct(int index, Product selectedProduct) {
-	
-	}
-
-	public void deletePart(Part selectedPart) {
-	
-	}
-
-	public void deleteProduct(Product selectedProduct) {
-	
-	}
-
-	public ObservableList<Part> getAllParts() {
-		return null;
+	public static ObservableList<Part> getAllParts() {
+		return allParts;
 	
 	}
 
-	public ObservableList<Product> getAllProducts() {
-		return null;
+	public static ObservableList<Product> getAllProducts() {
+		return allProducts;
 	
 	}
 
